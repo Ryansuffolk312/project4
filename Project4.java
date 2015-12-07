@@ -1,11 +1,11 @@
-Enter file contents here///////Ryan Rosario
+///////Ryan Rosario
 ///////Project-3
 
 ////Globals
 Ball [] ros = new Ball[16];
+Button[] rya = new Button [4];
 Rodent mouse;
 Bird pigeon;
-Button bR, bW, bM, bB;
 ////Table
 float left, right, top, bottom;
 float middle;
@@ -27,30 +27,30 @@ void setup() {
   ros [0].g=255;
   ros [0].b=255;
 ///Balls
-  for (int i=1; i<ros.length; i++){ros[i]= new Ball(255,255,255); }
+  for (int i=1; i<ros.length; i++){ros[i]= new Ball(255,255,255); } 
 ///Rodent
    mouse= new Rodent();
 ///Bird
    pigeon= new Bird();
 ////Buttons
 ///Reset   
-   bR= new Button();
-   bR.g=255;
-   bR.name= "Reset (or press 'r')";
+   rya[0]= new Button();
+   rya[0].g=255;
+   rya[0].name= "Reset (or press 'r')";
 ///Wall
-   bW= new Button();
-   bW.r=255;
-   bW.name= "Wall (or press'w')";
+   rya[1]= new Button();
+   rya[1].r=255;
+   rya[1].name= "Wall (or press'w')";
 ///Mouse
-   bM= new Button();
-   bM.r=149;
-   bM.g=82;
-   bM.b=11;
-   bM.name= "Mouse (or press 'm')";
+   rya[2]= new Button();
+   rya[2].r=149;
+   rya[2].g=82;
+   rya[2].b=11;
+   rya[2].name= "Mouse (or press 'm')";
 ///Bird
-   bB=new Button();
-   bB.b=255;
-   bB.name= "Bird/bomb (or press 'b')";
+   rya[3]=new Button();
+   rya[3].b=255;
+   rya[3].name= "Bird/bomb (or press 'b')";
    //
    reset();
 }
@@ -60,10 +60,10 @@ void reset(){
   for (int i=1; i<ros.length; i++){ros[i].reset();}
   mouse.reset();
   pigeon.reset();
-  bR.reset();
-  bW.x1=185; bW.x2=320; bW.y1=30; bW.y2=60;
-  bM.x1=325; bM.x2=465; bM.y1=30; bM.y2=60;
-  bB.x1=470; bB.x2=610; bB.y1=30; bB.y2=60;
+  rya[0].reset();
+  rya[1].x1=185; rya[1].x2=320; rya[1].y1=30; rya[1].y2=60;
+  rya[2].x1=325; rya[2].x2=465; rya[2].y1=30; rya[2].y2=60;
+  rya[3].x1=470; rya[3].x2=610; rya[3].y1=30; rya[3].y2=60;
 ///wall
    wall=true;
 ///color
@@ -113,20 +113,20 @@ void reset(){
       score -= 5;}
   for(int i=1; i<ros.length; i++){ if(ros[i].hit(mouseX,mouseY)){ ros[i].reset();}}
    ////buttons
-   if(mouseX > bR.x1 && mouseX < bR.x2 && mouseY > bR.y1 && mouseY < bR.y2 ) {      //// reset table
+   if(mouseX > rya[0].x1 && mouseX < rya[0].x2 && mouseY > rya[0].y1 && mouseY < rya[0].y2 ) {      //// reset table
         reset();}
    
-   if(mouseX > bW.x1 && mouseX < bW.x2 && mouseY > bW.y1 && mouseY < bW.y2 ) {     //// remove wall
+   if(mouseX > rya[1].x1 && mouseX < rya[1].x2 && mouseY > rya[1].y1 && mouseY < rya[1].y2 ) {     //// remove wall
         wall=false;}
    
-   if(mouseX > bM.x1 && mouseX < bM.x2 && mouseY > bM.y1 && mouseY < bM.y2 ) {    //// release rodent
+   if(mouseX > rya[2].x1 && mouseX < rya[2].x2 && mouseY > rya[2].y1 && mouseY < rya[2].y2 ) {    //// release rodent
      mouse.dx=5;
      mouse.dy=3;}       
    
-   if(mouseX > bB.x1 && mouseX < bB.x2 && mouseY > bB.y1 && mouseY < bB.y2 && pigeon.dx == 0 ) {     //// release bird
+   if(mouseX > rya[3].x1 && mouseX < rya[3].x2 && mouseY > rya[3].y1 && mouseY < rya[3].y2 && pigeon.dx == 0 ) {     //// release bird
        pigeon.dx=3;}  
     
-   if(mouseX > bB.x1 && mouseX < bB.x2 && mouseY > bB.y1 && mouseY < bB.y2 && pigeon.x>0 ){   ////drop bomb
+   if(mouseX > rya[3].x1 && mouseX < rya[3].x2 && mouseY > rya[3].y1 && mouseY < rya[3].y2 && pigeon.x>0 ){   ////drop bomb
       pigeon.payload();}
      
    
@@ -174,10 +174,7 @@ void reset(){
  }
  
  void button(){
-   bR.show();
-   bW.show();
-   bM.show();
-   bB.show();
+  for(int i=0; i<rya.length; i++){rya[i].show();}
  }
    
    
@@ -258,7 +255,7 @@ int endLegs=699;
   //// PROPERTIES:  position, speed, color, etc. ////   (What a Ball "has".)
   float x,y, dx,dy;
   int r,g,b;
-  String name="";
+  String name= "";
   
   Ball (int r, int g, int b){
     this.r=r;
@@ -312,7 +309,7 @@ int endLegs=699;
 class Button {
   float x1, y1, x2, y2;
   int r,g,b;
-  String name="";
+  String name= "";
 
 ////Methods
   void show(){     

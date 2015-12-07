@@ -3,7 +3,7 @@
 
 ////Globals
 Ball [] ros = new Ball[16];
-Button[] rya = new Button [4];
+Button[] rya = new Button [7];
 Rodent mouse;
 Bird pigeon;
 ////Table
@@ -36,21 +36,38 @@ void setup() {
 ///Reset   
    rya[0]= new Button();
    rya[0].g=255;
-   rya[0].name= "Reset (or press 'r')";
+   rya[0].name= "Reset";
 ///Wall
    rya[1]= new Button();
    rya[1].r=255;
-   rya[1].name= "Wall (or press'w')";
+   rya[1].name= "Wall";
 ///Mouse
    rya[2]= new Button();
    rya[2].r=149;
    rya[2].g=82;
    rya[2].b=11;
-   rya[2].name= "Mouse (or press 'm')";
+   rya[2].name= "Mouse";
 ///Bird
-   rya[3]=new Button();
+   rya[3]= new Button();
    rya[3].b=255;
-   rya[3].name= "Bird/bomb (or press 'b')";
+   rya[3].name= "Bird/bomb";
+///Closest
+   rya[4]= new Button();
+   rya[4].g=152;
+   rya[4].b=110;
+   rya[4].name= "Closest";
+///List
+   rya[5]= new Button();
+   rya[5].g=178;
+   rya[5].b=111;
+   rya[5].name= "List";
+///Sort
+   rya[6]= new Button();
+   rya[6].g=116;
+   rya[6].b=255;
+   rya[6].name="Sort";
+   
+   
    //
    reset();
 }
@@ -61,9 +78,12 @@ void reset(){
   mouse.reset();
   pigeon.reset();
   rya[0].reset();
-  rya[1].x1=185; rya[1].x2=320; rya[1].y1=30; rya[1].y2=60;
-  rya[2].x1=325; rya[2].x2=465; rya[2].y1=30; rya[2].y2=60;
-  rya[3].x1=470; rya[3].x2=610; rya[3].y1=30; rya[3].y2=60;
+  rya[1].x1=120; rya[1].x2=190; rya[1].y1=30; rya[1].y2=60;
+  rya[2].x1=200; rya[2].x2=270; rya[2].y1=30; rya[2].y2=60;
+  rya[3].x1=280; rya[3].x2=360; rya[3].y1=30; rya[3].y2=60;
+  rya[4].x1=370; rya[4].x2=440; rya[4].y1=30; rya[4].y2=60;
+  rya[5].x1=450; rya[5].x2=520; rya[5].y1=30; rya[5].y2=60;
+  rya[6].x1=530; rya[6].x2=600; rya[6].y1=30; rya[6].y2=60;
 ///wall
    wall=true;
 ///color
@@ -175,6 +195,12 @@ void reset(){
  
  void button(){
   for(int i=0; i<rya.length; i++){rya[i].show();}
+ 
+  ////buttons light up
+  for(int i=0; i<rya.length; i++){
+     if(mouseX > rya[i].x1 && mouseX < rya[i].x2 && mouseY > rya[i].y1 && mouseY < rya[i].y2 ){rya[i].r=255;}
+     else{rya[i].r=100;}}
+     
  }
    
    
@@ -319,7 +345,7 @@ class Button {
   }
   
   void reset(){
-  x1=40; x2=180;
+  x1=40; x2=110;
   y1=30; y2=60;
 }
 }

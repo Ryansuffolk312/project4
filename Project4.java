@@ -14,6 +14,9 @@ int tableRed=173, tableGreen=75, tableBlue=255;
 ///Count
 int score= 0;
 
+boolean list= false;
+boolean sort= false;
+
 void setup() {
   size(700, 500);
    left= 50;
@@ -22,12 +25,12 @@ void setup() {
    bottom= height-50;
    middle= right - left/2;
 ///Cue
-  ros [0]= new Ball(255,255,255);
+  ros [0]= new Ball(0,255,255,255);
   ros [0].r=255;
   ros [0].g=255;
   ros [0].b=255;
 ///Balls
-  for (int i=1; i<ros.length; i++){ros[i]= new Ball(255,255,255); } 
+  for (int i=1; i<ros.length; i++){ros[i]= new Ball(i,255,255,255); } 
 ///Rodent
    mouse= new Rodent();
 ///Bird
@@ -148,12 +151,16 @@ void reset(){
     
    if(mouseX > rya[3].x1 && mouseX < rya[3].x2 && mouseY > rya[3].y1 && mouseY < rya[3].y2 && pigeon.x>0 ){   ////drop bomb
       pigeon.payload();}
-     
+      
+   if(mouseX > rya[5].x1 && mouseX < rya[5].x2 && mouseY > rya[5].y1 && mouseY < rya[5].y2) {   /////List
+     list = !list;}
    
+   if(mouseX > rya[6].x1 && mouseX < rya[6].x2 && mouseY > rya[6].y1 && mouseY < rya[6].y2) {   /////List
+     sort=!sort; list = !list;}
+ }
+    
+    
    
-        
-  }
- 
  
  
 ///Functions 
@@ -167,6 +174,8 @@ void reset(){
      bird();
      grass();
      info();
+     listInfo( ros, ros.length);
+     sortBallY( ros, ros.length);
  }
 ////Scene: Table and wall
  void table( float east, float north, float west, float south ) {
@@ -186,7 +195,8 @@ void reset(){
  }
 ////Show: Balls, Rodent, Bird 
  void balls() {
-    for(int i=0; i<ros.length; i++){ros[i].move();}
+    if(!list) {
+    for(int i=0; i<ros.length; i++){ros[i].move();}}
     for (int i = 0; i < ros.length; i++) {
     for (int j = i + 1; j < ros.length; j++) {collision(ros[i], ros[j]);}}
     //
@@ -260,7 +270,49 @@ int endLegs=699;
      grassx=grassx+spacing;
    }
   }
-
+  
+ void listInfo( Ball[] a, int many) {
+   if (list) {
+ float x= width/2;
+ float y= 100; 
+  text("num", x+65, y);
+  text( "x", x+115, y );
+  text( "y", x+165, y );
+  fill(0);
+  //
+ for(int i=0; i<many; i++){
+  y += 15;
+  text( i, x+60, y);
+  text( a[i].x, x+100, y );
+  text( a[i].y, x+165, y );
+ }
+}
+  else{ list = false;}
+ }
+ 
+ void sortBallY( Ball[] a, int many) {
+   if(sort) {
+   for(int m=many; m>1; m--) {
+     int k=0;
+   for(int j=1; j<m; j++) {
+    if( a[j].y> a[k].y) k=j;
+   }
+    swapY(a, m-1, k);
+   }
+   }
+   else{ sort = false;}
+ }
+ 
+ void swapY(Ball[] a, int j, int k) {
+    Ball t;
+    t=a[k];
+    a[k]= a[j];
+    a[j]= t;
+ }
+     
+   
+   
+     
 ///Messages   
   void info(){
   fill(0);     text(score, 650, 50);
@@ -281,9 +333,11 @@ int endLegs=699;
   //// PROPERTIES:  position, speed, color, etc. ////   (What a Ball "has".)
   float x,y, dx,dy;
   int r,g,b;
-  String name= "";
+  int num;
+  //String name= "";
   
-  Ball (int r, int g, int b){
+  Ball (int a, int r, int g, int b){
+    num=a;
     this.r=r;
     this.g=g;
     this.b=b;
@@ -302,7 +356,7 @@ int endLegs=699;
     fill(r,g,b);
     ellipse( x,y, 30,30 );
     fill(0);
-    text( name, x-5,y );
+    text( num, x-5,y );
   }
   void move() {
     if(wall) {
@@ -336,7 +390,7 @@ class Button {
   float x1, y1, x2, y2;
   int r,g,b;
   String name= "";
-
+ 
 ////Methods
   void show(){     
   fill(r,g,b);
@@ -469,7 +523,6 @@ class Bird {
  
    
    
-
 
 
 

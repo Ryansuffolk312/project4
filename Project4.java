@@ -1,9 +1,10 @@
 ///////Ryan Rosario
-///////Project-3
+///////Project-4
 
 ////Globals
 Ball [] ros = new Ball[16];
 Button[] rya = new Button [7];
+String names []= {"Reset", "Wall", "Mouse", "Bird/Bomb", "Closest", "List", "Sort"};
 Rodent mouse;
 Bird pigeon;
 ////Table
@@ -11,6 +12,10 @@ float left, right, top, bottom;
 float middle;
 boolean wall=true;
 int tableRed=173, tableGreen=75, tableBlue=255;
+
+int spacing= 80;
+
+
 ///Count
 int score= 0;
 
@@ -36,41 +41,8 @@ void setup() {
 ///Bird
    pigeon= new Bird();
 ////Buttons
-///Reset   
-   rya[0]= new Button();
-   rya[0].g=255;
-   rya[0].name= "Reset";
-///Wall
-   rya[1]= new Button();
-   rya[1].r=255;
-   rya[1].name= "Wall";
-///Mouse
-   rya[2]= new Button();
-   rya[2].r=149;
-   rya[2].g=82;
-   rya[2].b=11;
-   rya[2].name= "Mouse";
-///Bird
-   rya[3]= new Button();
-   rya[3].b=255;
-   rya[3].name= "Bird/bomb";
-///Closest
-   rya[4]= new Button();
-   rya[4].g=152;
-   rya[4].b=110;
-   rya[4].name= "Closest";
-///List
-   rya[5]= new Button();
-   rya[5].g=178;
-   rya[5].b=111;
-   rya[5].name= "List";
-///Sort
-   rya[6]= new Button();
-   rya[6].g=116;
-   rya[6].b=255;
-   rya[6].name="Sort";
-   
-   
+   float x1= 40, x2=110;
+   for (int i=0; i<rya.length; i++ ) {rya[i]= new Button( names[i], x1, x2); x1+=spacing; x2+=spacing; }  
    //
    reset();
 }
@@ -80,13 +52,6 @@ void reset(){
   for (int i=1; i<ros.length; i++){ros[i].reset();}
   mouse.reset();
   pigeon.reset();
-  rya[0].reset();
-  rya[1].x1=120; rya[1].x2=190; rya[1].y1=30; rya[1].y2=60;
-  rya[2].x1=200; rya[2].x2=270; rya[2].y1=30; rya[2].y2=60;
-  rya[3].x1=280; rya[3].x2=360; rya[3].y1=30; rya[3].y2=60;
-  rya[4].x1=370; rya[4].x2=440; rya[4].y1=30; rya[4].y2=60;
-  rya[5].x1=450; rya[5].x2=520; rya[5].y1=30; rya[5].y2=60;
-  rya[6].x1=530; rya[6].x2=600; rya[6].y1=30; rya[6].y2=60;
 ///wall
    wall=true;
 ///color
@@ -152,10 +117,10 @@ void reset(){
    if(mouseX > rya[3].x1 && mouseX < rya[3].x2 && mouseY > rya[3].y1 && mouseY < rya[3].y2 && pigeon.x>0 ){   ////drop bomb
       pigeon.payload();}
       
-   if(mouseX > rya[5].x1 && mouseX < rya[5].x2 && mouseY > rya[5].y1 && mouseY < rya[5].y2) {   /////List
+   if(mouseX > rya[5].x1 && mouseX < rya[5].x2 && mouseY > rya[5].y1 && mouseY < rya[5].y2) {   /////List: toogle on and off
      list = !list;}
    
-   if(mouseX > rya[6].x1 && mouseX < rya[6].x2 && mouseY > rya[6].y1 && mouseY < rya[6].y2) {   /////List
+   if(mouseX > rya[6].x1 && mouseX < rya[6].x2 && mouseY > rya[6].y1 && mouseY < rya[6].y2) {   /////Sort List toggle on and off
      sort=!sort; list = !list;}
  }
     
@@ -208,7 +173,7 @@ void reset(){
  
   ////buttons light up
   for(int i=0; i<rya.length; i++){
-     if(mouseX > rya[i].x1 && mouseX < rya[i].x2 && mouseY > rya[i].y1 && mouseY < rya[i].y2 ){rya[i].r=255;}
+     if(mouseX > rya[i].x1 && mouseX < rya[i].x2 && mouseY > rya[i].y1 && mouseY < rya[i].y2 ){rya[i].r=255; rya[i].g=255; rya[i].b=255;}
      else{rya[i].r=100;}}
      
  }
@@ -234,6 +199,7 @@ void reset(){
      float tmp;
      tmp=p.dx; p.dx=q.dx; q.dx=tmp;
      tmp=p.dy; p.dy=q.dy; q.dy=tmp;
+///help stop balls from sticking together
      {p.x += p.dx;}  
      {p.y += p.dy;}
 
@@ -270,26 +236,29 @@ int endLegs=699;
      grassx=grassx+spacing;
    }
   }
-  
+
+///Show list if button is pressed
  void listInfo( Ball[] a, int many) {
    if (list) {
  float x= width/2;
  float y= 100; 
-  text("num", x+65, y);
+  textSize(14);
+  text("num", x+55, y);
   text( "x", x+115, y );
-  text( "y", x+165, y );
+  text( "y", x+185, y );
   fill(0);
   //
  for(int i=0; i<many; i++){
-  y += 15;
+  y += 20;
   text( i, x+60, y);
   text( a[i].x, x+100, y );
   text( a[i].y, x+165, y );
  }
+ textSize(12);
 }
   else{ list = false;}
  }
- 
+///Show list and sort it if button is pressed
  void sortBallY( Ball[] a, int many) {
    if(sort) {
    for(int m=many; m>1; m--) {
@@ -387,21 +356,28 @@ int endLegs=699;
 }
 
 class Button {
-  float x1, y1, x2, y2;
+  float x1, y1=30, x2, y2=60;
   int r,g,b;
   String name= "";
  
+ Button(String s, float x1, float x2) {
+   this.name= s;
+   this.x1=x1;
+   this.x2=x2;
+   ///
+   r=209;
+   g=207;
+   b=207;
+   
+ }
+   
+
 ////Methods
   void show(){     
   fill(r,g,b);
   rect(x1,y1,x2,y2);
   fill(0); text(name, x1+10, y1+20);
   }
-  
-  void reset(){
-  x1=40; x2=110;
-  y1=30; y2=60;
-}
 }
    
 
@@ -523,6 +499,7 @@ class Bird {
  
    
    
+
 
 
 

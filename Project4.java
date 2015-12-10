@@ -286,7 +286,7 @@ int endLegs=699;
   void info(){
   fill(0);     text(score, 650, 50);
   fill(0);     text("Ryan Rosario", 50, height-30);
-  fill(0);     text("CST-112: Project 3", width/2.5, 10);
+  fill(0);     text("CST-112: Project 4", width/2.5, 10);
   fill(0);     text("click any ball to reset position (-5 points). Press q to exit", width/4, 20);
   
   
@@ -314,9 +314,9 @@ int endLegs=699;
   }
   
   void randomize(){
-   r=int(random(0,255));
-   g=int(random(0,255));
-   b=int(random(0,255));
+   r=int(random(50,255));
+   g=int(random(50,255));
+   b=int(random(50,255));
   }
   
   
@@ -344,8 +344,8 @@ int endLegs=699;
   void reset() {
     x=  random(middle, right);
     y=  random( top, bottom );
-    dx=  random( 1,3);
-    dy=  random( 1,3 );
+    dx=  random( 1,2);
+    dy=  random( 1,2);
   }
 
   
